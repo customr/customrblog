@@ -167,8 +167,8 @@ def logout(request):
 def like_post(request, post_id):
 	post = get_object_or_404(Post, pk=post_id)
 
-	if request.META['REMOTE_ADDR'] not in post.liked_users:
-		post.liked_users.append(request.META['REMOTE_ADDR'])
+	if request.user not in post.liked_users.all():
+		post.liked_users.add(get_object_or_404(MyUser, username=request.user.username))
 		post.save()
 		Post.objects.filter(pk=post.id).update(rating=F('rating') + 1)
 		Blog.objects.filter(pk=post.blog.id).update(rating=F('rating') + 1)
@@ -179,8 +179,8 @@ def like_post(request, post_id):
 def like_comment(request, comment_id):
 	comment = get_object_or_404(Comment, pk=comment_id)
 
-	if request.META['REMOTE_ADDR'] not in comment.liked_users:
-		comment.liked_users.append(request.META['REMOTE_ADDR'])
+	if request.user not in comment.liked_users.all():
+		comment.liked_users.add(get_object_or_404(MyUser, username=request.user.username))
 		comment.save()
 		Comment.objects.filter(pk=comment.id).update(rating=F('rating') + 1)
 		Blog.objects.filter(pk=comment.post.blog.id).update(rating=F('rating') + 1)
@@ -191,8 +191,8 @@ def like_comment(request, comment_id):
 def unlike_post(request, post_id):
 	post = get_object_or_404(Post, pk=post_id)
 
-	if request.META['REMOTE_ADDR'] in post.liked_users:
-		post.liked_users.remove(request.META['REMOTE_ADDR'])
+	if request.user in post.liked_users.all():
+		post.liked_users.remove(get_object_or_404(MyUser, username=request.user.username))
 		post.save()
 		Post.objects.filter(pk=post.id).update(rating=F('rating') - 1)
 		Blog.objects.filter(pk=post.blog.id).update(rating=F('rating') - 1)
@@ -204,8 +204,8 @@ def unlike_post(request, post_id):
 def unlike_comment(request, comment_id):
 	comment = get_object_or_404(Comment, pk=comment_id)
 
-	if request.META['REMOTE_ADDR'] in comment.liked_users:
-		comment.liked_users.remove(request.META['REMOTE_ADDR'])
+	if request.user in comment.liked_users.all():
+		comment.liked_users.remove(get_object_or_404(MyUser, username=request.user.username))
 		comment.save()
 		Comment.objects.filter(pk=comment.id).update(rating=F('rating') - 1)
 		Blog.objects.filter(pk=comment.post.blog.id).update(rating=F('rating') - 1)

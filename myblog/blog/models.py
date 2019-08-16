@@ -104,30 +104,13 @@ class Post(models.Model):
 	rating = models.IntegerField('Rating', default=0)
 	date_published = models.DateTimeField('Date published', default=timezone.now, blank=True)
 
+	liked_users = models.ManyToManyField(MyUser, default=None, related_name='liked_post')
+
 	def __str__(self):
 		return '#{} {}'.format(self.id, self.title)
 
 	def get_absolute_url(self):
 		return reverse('blog:post', args=[str(self.id)])
-
-	@property
-	def liked_users(self):
-		if not hasattr(self, '_liked_users'):
-			self._liked_users = []
-            
-		return self._liked_users
-
-	@liked_users.getter
-	def liked_users(self):
-		if not hasattr(self, '_liked_users'):
-			self._liked_users = []
-			
-		return self._liked_users
-
-	@liked_users.setter
-	def liked_users(self, nlist):
-		self._liked_users = nlist
-		return self._liked_users
 	
 
 class Comment(models.Model):
@@ -137,6 +120,7 @@ class Comment(models.Model):
 	rating = models.IntegerField('Rating', default=0, blank=True)
 	date_published = models.DateTimeField('Date published', default=timezone.now, blank=True)
 
+	liked_users = models.ManyToManyField(MyUser, default=None, related_name='liked_comments')
 
 	def __str__(self):
 		return 'Comment {}'.format(self.id)
@@ -144,22 +128,4 @@ class Comment(models.Model):
 	def get_absolute_url(self):
 		return reverse('blog:post', args=[str(self.post.id)])
 
-	@property
-	def liked_users(self):
-		if not hasattr(self, '_liked_users'):
-			self._liked_users = []
-
-		return self._liked_users
-
-	@liked_users.getter
-	def liked_users(self):
-		if not hasattr(self, '_liked_users'):
-			self._liked_users = []
-
-		return self._liked_users
-	
-	@liked_users.setter
-	def liked_users(self, nlist):
-		self._liked_users = nlist
-		return self._liked_users
 	
