@@ -1,0 +1,75 @@
+{% extends 'blog/base.html' %}
+
+{% block title%}
+Author {{author.first_name}}{{author.last_name}}
+{% endblock title %}
+
+{% block content %}
+<p class='title'>Routes</p>
+<ul>
+    <a href="{% url 'blog:index-page' %}"><li class='list'><b>/</b> - all blogs</li></a>
+    <br>
+
+    {% if blog %}
+    <a href="{% url 'blog:blog' blog %}"><li class='list'><b>/blog/>blog_name<</b> - blog "blog_name"</li></a>
+    {% else %}
+    <li class='list'><b>/blog/>blog_name<</b> - blog "blog_name"</li>
+    {% endif %}
+
+    <br>
+    <a href="{% url 'blog:posts' %}"><li class='list'><b>/posts/</b> - all posts</li></a>
+    <br>
+
+    {% if topic %}
+    <a href="{% url 'blog:posts_topic' topic %}"><li class='list'><b>/posts/topic/>topic_name<</b> - all posts by topic</li></a>
+    {% else %}
+    <li class='list'><b>/posts/topic/>topic_name<</b> - all posts by topic</li>
+    {% endif %}
+    <br>
+
+    {% if post %}
+    <a href="{% url 'blog:post' post %}"><li class='list'><b>/post/>post_id<</b> - detailed post by id</li></a>
+    {% else %}
+    <li class='list'><b>/post/>post_id<</b> - detailed post by id</li>
+    {% endif %}
+    
+    <br>
+    <a href="{% url 'blog:users' %}"><li class='list'><b>/authors/</b> - all users</li></a>
+    <br>
+
+    {% if author %}
+    <a href="{% url 'blog:user' author %}"><li class='list'><b>/authors/>author_id<</b> - detailed user information</li></a>
+    {% else %}
+    <li class='list'><b>/authors/>author_id<</b> - detailed user information</li>
+    {% endif %}
+
+    <br>
+    <a href="{% url 'blog:new_blog' %}"><li class='list'><b>/newblog/</b> - create new blog</li></a>
+    <br>
+    <a href="{% url 'blog:new_post' %}"><li class='list'><b>/newpost/</b> - create new post</li></a>
+    <br>
+
+    {% if blog %}
+    <a href="{% url 'blog:new_post' blog%}"><li class='list'><b>newpost/>blog_name<</b> - create new post for blog</li></a>
+    {% else %}
+    <li class='list'><b>newpost/>blog_name</</b> - create new post for blog</li>
+    {% endif %}
+    <br>
+    <a href="{% url 'login' %}"><li class='list'><b>/accounts/login/</b> - log in</li></a>
+    <br>
+    <a href="{% url 'blog:register' %}"><li class='list'><b>/register/</b> - registration</li></a>
+    <br>
+    <a href="{% url 'blog:success' %}"><li class='list'><b>/register/success/</b> - register success page</li></a>
+    <br>
+    <li class='list'><b>/post/comment/create/>post_id<</b> - create new comment</li>
+    <br>
+    <li class='list'><b>/post/>post_id/like/</b> - like a post</li>
+    <br>
+    <li class='list'><b>/post/>post_id/unlike/</b> - unlike the post</li>
+    <br>
+    <li class='list'><b>/post/comment/>comment_id/like</b> - like a comment</li>
+    <br>
+    <li class='list'><b>/post/comment/>comment_id/unlike</b> - unlike the comment</li>
+
+</ul>
+{% endblock content %}

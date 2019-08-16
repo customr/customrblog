@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'blog/content/style.css' %}">
+    <title>{% block title %}{% endblock title %}</title>
+</head>
+<header>
+	<div class='nav'>
+		<ul class='nav'>
+		    <li class='nav'><a class='nav' href="{% url 'blog:index-page' %}">Blogs</a></li>
+		    <li class='nav'><a class='nav' href="{% url 'blog:posts' %}">Posts</a></li>
+		    <li class='nav'><a class='nav' href="{% url 'blog:users' %}">Users</a></li>
+		    <li class='nav'><a class='nav' href="{% url 'blog:help' %}">Help</a></li>
+		    {% if request.user.is_staff %}
+		    	<li class='nav'><a class='nav' href="/admin/">Admin</a></li>
+		    {% endif %}
+		</ul>
+		{% block navigation %}
+		{% endblock navigation %}
+	</div>
+	<div class='actions'>
+		<ul class='actions'>
+			{% if not user.is_authenticated %}
+				<li id='auth' class='actions'><a class='actions' href="{% url 'blog:register' %}">register</a></li>
+				<li id='auth' class='actions'><a class='actions' href="{% url 'login' %}">log in</a></li>
+			{% else %}
+				<li class='actions'><a class='actions' href="{% url 'blog:new_blog' %}">new blog</a></li>
+				<li class='actions'><a class='actions' href="{% url 'blog:new_post' %}">new post</a></li>
+				<li id='auth' class='actions'><a class='actions' href="{% url 'logout' %}">log out</a></li>
+			{% endif %}
+		</ul>
+	</div>
+</header>
+<body>
+{% block content %}
+{% endblock content %}
+</body>
+</html>

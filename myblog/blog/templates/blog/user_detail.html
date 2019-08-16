@@ -1,0 +1,68 @@
+{% extends 'blog/base.html' %}
+
+{% block title%}
+User {{thisuser.first_name}} {{thisuser.last_name}}
+{% endblock title %}
+
+{% block content %}
+<div>
+	<h1>Username: {{ thisuser.username }}</h1>
+	<h1>First name: {{ thisuser.first_name }}</h1>
+	<h1>Last name: {{ thisuser.last_name }}</h1>
+	<h1>E-mail: {{ thisuser.email }}</h1>
+	<h1>Date of birth: {{ thisuser.date_of_birth }}</h1>
+</div>
+<p class='title'>User's blogs</p>
+<div>
+	<table>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Rating</th>
+				<th>Link</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for blog in blogs %}
+			<tr>
+				<th>{{ blog.id }}</th>
+				<th>{{ blog.name }}</th>
+				<th>{{ blog.rating }}</th>
+				<th><a href="{% url 'blog:blog' blog.name %}">Detail</a></th>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+<p class='title'>User's posts</p>
+<div>
+	<table>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Blog</th>
+				<th>Topic</th>
+				<th>Title</th>
+				<th>Content</th>
+				<th>Date published</th>
+				<th>Link</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for post in posts %}
+			<tr>
+				<th>{{ post.id }}</th>
+				<th>{{ post.blog }}</th>
+				<th>{{ post.topic }}</th>
+				<th>{{ post.title }}</th>
+				<th>{{ post.text|slice:25 }}</th>
+				<th>{{ post.date_published }}</th>
+				<th><a href="{% url 'blog:post' post.id %}">Detail</a></th>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock content %}

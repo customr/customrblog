@@ -1,0 +1,35 @@
+{% extends 'blog/base.html' %}
+
+{% block title%}
+Users
+{% endblock title %}
+
+{% block content %}
+<p class='title'>Users</p>
+<div>
+	<table>
+		<thead>
+			<tr>
+				<th>Username</th>
+				<th>First name</th>
+				<th>Last name</th>
+				<th>E-mail</th>
+				<th>Date of birth</th>
+				<th>Link</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for thisuser in users %}
+			<tr>
+				<th>{{ thisuser.username }}</th>
+				<th>{{ thisuser.first_name }}</th>
+				<th>{{ thisuser.last_name }}</th>
+				<th>{{ thisuser.email }}</th>
+				<th>{{ thisuser.date_of_birth }}</th>
+				<th><a href="{% url 'blog:user' thisuser.id %}">Detail</a></th>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock content %}

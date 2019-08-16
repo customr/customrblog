@@ -1,0 +1,55 @@
+{% extends 'blog/base.html' %}
+
+{% block title%}
+{{ post.title }}
+{% endblock title %}
+
+{% block content %}
+<p class='title'>{{ post.title }}</p>
+<div id='post'>
+	<textarea cols='180' rows='10' readonly='true'>{{ post.text }}</textarea>
+	<hr>
+	<small>
+		{{ post.date_published }}
+		<li>
+			<a href="{% url 'blog:user' post.author.id %}">AUTHOR</a>
+			{% if user.is_authenticated %}
+				{% if request.META.REMOTE_ADDR not in post.liked_users %}
+				<a href="{% url 'blog:like_post' post.id%}" class='like'>LIKE</a>
+				{% else %}
+				<a href="{% url 'blog:unlike_post' post.id%}" class='unlike'>UNLIKE</a>
+				{% endif %}
+			{% endif %}
+		</li>
+	</small>
+</div>
+{% if user.is_authenticated %}
+	<form method="POST" id='comment'>{% csrf_token %}
+        {{ form.text.label_tag }}
+        {{ form.text }}
+        <button type="submit">Save</button>
+	</form>
+{% endif %}
+{% if comments %}
+<p class='title'>Comments</p>
+<div id='comment'>
+	<ul>
+		{% for comment in comments %}
+			<li>
+				<a href="{% url 'blog:user' comment.author.id %}">{{ comment.author }}</a>
+				{{ comment.date_published }}
+				{% if user.is_authenticated %}
+					{% if request.META.REMOTE_ADDR not in comment.liked_users %}
+						<a href="{% url 'blog:like_comment' comment.id %}" class='like'>LIKE</a>
+					{% else %}
+						<a href="{% url 'blog:unlike_comment' comment.id %}" class='unlike'>UNLIKE</a>
+					{% endif %}
+				{% endif %}
+			</li>
+			<div class="post">{{ comment.text }}</div>
+			<br>
+		{% endfor %}
+	</ul>
+</div>
+{% endif %}
+{% endblock content %}
