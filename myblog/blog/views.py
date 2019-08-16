@@ -153,11 +153,9 @@ def help(request):
 	}
 	return render(request, 'blog/help.html', context)
 
-@login_required(login_url='accounts/login/')
 def register_success(request):
 	return render(request, 'registration/registration_success.html', {})
 
-@login_required(login_url='accounts/login/')
 def logout(request):
 	return render(request, 'registration/logout.html', {})
 
@@ -212,4 +210,4 @@ def unlike_comment(request, comment_id):
 		Comment.objects.filter(pk=comment.id).update(rating=F('rating') - 1)
 		Blog.objects.filter(pk=comment.post.blog.id).update(rating=F('rating') - 1)
 
-	return HttpResponseRedirect(reverse('blog:post', args=(post.id, )))
+	return HttpResponseRedirect(reverse('blog:post', args=(comment.post.id, )))

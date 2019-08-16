@@ -99,12 +99,10 @@ class Post(models.Model):
 	blog = models.ForeignKey(Blog, on_delete=models.CASCADE, blank=True)
 	author = models.ForeignKey(MyUser, on_delete=models.CASCADE, blank=True)
 	topic = models.CharField('Topic', max_length=50, blank=True)
-	title = models.CharField('Title', max_length=5500, blank=True)
-	text = models.TextField('Text', max_length=00, blank=True)
+	title = models.CharField('Title', max_length=50, blank=True)
+	text = models.TextField('Text', max_length=5000, blank=True)
 	rating = models.IntegerField('Rating', default=0)
 	date_published = models.DateTimeField('Date published', default=timezone.now, blank=True)
-
-	liked_users = []
 
 	def __str__(self):
 		return '#{} {}'.format(self.id, self.title)
@@ -112,6 +110,25 @@ class Post(models.Model):
 	def get_absolute_url(self):
 		return reverse('blog:post', args=[str(self.id)])
 
+	@property
+	def liked_users(self):
+		if not hasattr(self, '_liked_users'):
+			self._liked_users = []
+            
+		return self._liked_users
+
+	@liked_users.getter
+	def liked_users(self):
+		if not hasattr(self, '_liked_users'):
+			self._liked_users = []
+			
+		return self._liked_users
+
+	@liked_users.setter
+	def liked_users(self, nlist):
+		self._liked_users = nlist
+		return self._liked_users
+	
 
 class Comment(models.Model):
 	author = models.ForeignKey(MyUser, on_delete=models.CASCADE, blank=True)
@@ -120,10 +137,29 @@ class Comment(models.Model):
 	rating = models.IntegerField('Rating', default=0, blank=True)
 	date_published = models.DateTimeField('Date published', default=timezone.now, blank=True)
 
-	liked_users = []
 
 	def __str__(self):
 		return 'Comment {}'.format(self.id)
 
 	def get_absolute_url(self):
 		return reverse('blog:post', args=[str(self.post.id)])
+
+	@property
+	def liked_users(self):
+		if not hasattr(self, '_liked_users'):
+			self._liked_users = []
+
+		return self._liked_users
+
+	@liked_users.getter
+	def liked_users(self):
+		if not hasattr(self, '_liked_users'):
+			self._liked_users = []
+
+		return self._liked_users
+	
+	@liked_users.setter
+	def liked_users(self, nlist):
+		self._liked_users = nlist
+		return self._liked_users
+	
