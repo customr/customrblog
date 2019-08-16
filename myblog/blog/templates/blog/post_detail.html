@@ -15,9 +15,9 @@
 			<a href="{% url 'blog:user' post.author.id %}">AUTHOR</a>
 			{% if user.is_authenticated %}
 				{% if request.META.REMOTE_ADDR not in post.liked_users %}
-				<a href="{% url 'blog:like_post' post.id%}" class='like'>LIKE</a>
+					<a href="{% url 'blog:like_post' post.id%}" class='like'>LIKE</a>
 				{% else %}
-				<a href="{% url 'blog:unlike_post' post.id%}" class='unlike'>UNLIKE</a>
+					<a href="{% url 'blog:unlike_post' post.id%}" class='unlike'>UNLIKE</a>
 				{% endif %}
 			{% endif %}
 		</li>

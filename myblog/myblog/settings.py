@@ -26,7 +26,7 @@ SECRET_KEY = '8*+!9k!-1&9--&(=p^%!&dev63ky)k0p*)wpi=ncybhedo91o7'
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'customrblog.pythonanywhere.com'
+    '*'
 ]
 
 

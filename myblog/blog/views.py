@@ -171,6 +171,7 @@ def like_post(request, post_id):
 
 	if request.META['REMOTE_ADDR'] not in post.liked_users:
 		post.liked_users.append(request.META['REMOTE_ADDR'])
+		post.save()
 		Post.objects.filter(pk=post.id).update(rating=F('rating') + 1)
 		Blog.objects.filter(pk=post.blog.id).update(rating=F('rating') + 1)
 
@@ -182,6 +183,7 @@ def like_comment(request, comment_id):
 
 	if request.META['REMOTE_ADDR'] not in comment.liked_users:
 		comment.liked_users.append(request.META['REMOTE_ADDR'])
+		comment.save()
 		Comment.objects.filter(pk=comment.id).update(rating=F('rating') + 1)
 		Blog.objects.filter(pk=comment.post.blog.id).update(rating=F('rating') + 1)
 
@@ -193,6 +195,7 @@ def unlike_post(request, post_id):
 
 	if request.META['REMOTE_ADDR'] in post.liked_users:
 		post.liked_users.remove(request.META['REMOTE_ADDR'])
+		post.save()
 		Post.objects.filter(pk=post.id).update(rating=F('rating') - 1)
 		Blog.objects.filter(pk=post.blog.id).update(rating=F('rating') - 1)
 
@@ -205,6 +208,7 @@ def unlike_comment(request, comment_id):
 
 	if request.META['REMOTE_ADDR'] in comment.liked_users:
 		comment.liked_users.remove(request.META['REMOTE_ADDR'])
+		comment.save()
 		Comment.objects.filter(pk=comment.id).update(rating=F('rating') - 1)
 		Blog.objects.filter(pk=comment.post.blog.id).update(rating=F('rating') - 1)
 
