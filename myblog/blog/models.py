@@ -89,7 +89,7 @@ class Blog(models.Model):
 	rating = models.IntegerField('Rating', default=0)
 
 	def __str__(self):
-		return f'Blog #{self.id} {self.name}'
+		return '#{} {}'.format(self.id, self.name)
 
 	def get_absolute_url(self):
 		return reverse('blog:blog', args=[str(self.name)])
@@ -107,7 +107,7 @@ class Post(models.Model):
 	liked_users = []
 
 	def __str__(self):
-		return f'#{self.id} {self.title}'
+		return '#{} {}'.format(self.id, self.title)
 
 	def get_absolute_url(self):
 		return reverse('blog:post', args=[str(self.id)])
@@ -123,7 +123,7 @@ class Comment(models.Model):
 	liked_users = []
 
 	def __str__(self):
-		return f'Comment {self.id}'
+		return 'Comment {}'.format(self.id)
 
 	def get_absolute_url(self):
 		return reverse('blog:post', args=[str(self.post.id)])
