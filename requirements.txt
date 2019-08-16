@@ -1,4 +1,1 @@
 Django==2.2.4
-pkg-resources
-pytz
-sqlparse
