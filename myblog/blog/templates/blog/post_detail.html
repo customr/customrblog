@@ -20,6 +20,7 @@
 					<a href="{% url 'blog:unlike_post' post.id%}" class='unlike'>UNLIKE</a>
 				{% endif %}
 			{% endif %}
+			<b>RATING: {{ post.rating }}</b>
 		</li>
 	</small>
 </div>
@@ -45,6 +46,7 @@
 						<a href="{% url 'blog:unlike_comment' comment.id %}" class='unlike'>UNLIKE</a>
 					{% endif %}
 				{% endif %}
+				<b>RATING: {{ comment.rating }}</b>
 			</li>
 			<div class="post">{{ comment.text }}</div>
 			<br>

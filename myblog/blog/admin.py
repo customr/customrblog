@@ -36,7 +36,7 @@ class BlogAdmin(admin.ModelAdmin):
 
 class PostAdmin(admin.ModelAdmin):
 	fields = ['topic', 'rating', 'blog', 'author']
-	list_display = ['rating', 'blog', 'topic', 'title', 'author']
+	list_display = ['blog', 'topic', 'title', 'author', 'rating']
 	list_filter = ['rating', 'blog', 'topic']
 
 class CommentAdmin(admin.ModelAdmin):

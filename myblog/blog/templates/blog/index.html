@@ -12,6 +12,7 @@ Author {{author.first_name}}{{author.last_name}}
             <li>
                 <a href="{% url 'blog:blog' blog.name %}">{{ blog.name }}</a>
                 <a class=author href="{% url 'blog:user' blog.author.id %}">Author: {{ blog.author }}</a>
+                <b>RATING: {{ blog.rating }}</b>
                 <hr>
             </li>
         </div>

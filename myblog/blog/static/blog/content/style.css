@@ -9,7 +9,7 @@
 }
 
 body{
-	background: #F6FFF6; 
+	background: #eeffe8; 
 }
 
 h1{
@@ -250,7 +250,7 @@ ul.list a {
 	width: 100%;
 	font-size: 35px;
 	line-height: 1.2;
-	background: #ffde38;
+	background: #a3ffb4;
 	color: #333;
 	text-align: center;
 }
@@ -274,9 +274,12 @@ a.like:hover{
 	background: white;
 	margin: 0;
 	padding: 0;
+	padding-left: 10px;
+	padding-right: 20px;
 }
 
 #post{
-	background: #fffed4;
-	margin-bottom: 50px;
+	background: #fffda6;
+	margin-bottom: 80px;
+	padding: 20px;
 }
