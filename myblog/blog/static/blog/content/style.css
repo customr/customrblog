@@ -8,6 +8,7 @@
 	font-family: 'gothic'
 }
 
+
 body{
 	background: #eeffe8; 
 }
@@ -17,7 +18,9 @@ h1{
 }
 
 input{
-	width: 200px;
+	float: top;
+	min-width: 49.5%;
+	background-color: #feffc9;
 }
 
 textarea{

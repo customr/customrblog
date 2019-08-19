@@ -22,6 +22,7 @@ urlpatterns = [
 	path('register/success/', views.register_success, name='success'),
 	path('logout/', views.logout, name='logout'),
 	#````````````````````````ACTIONS```````````````````````````
+	path('search/', views.search, name='search'),
 	path('post/<int:post_id>/like', views.like_post, name='like_post'),
 	path('post/<int:post_id>/unlike', views.unlike_post, name='unlike_post'),
 	path('post/comment/<int:comment_id>/like', views.like_comment, name='like_comment'),

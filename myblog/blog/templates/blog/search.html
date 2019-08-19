@@ -1,0 +1,103 @@
+{% extends 'blog/base.html' %}
+
+{% block title%}
+Search
+{% endblock title %}
+
+{% block content %}
+
+{% if users or blogs or posts %}
+
+{% if blogs %}
+<p class='title'>Blogs</p>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Author</th>
+                <th>Rating</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for blog in blogs %}
+            <tr>
+                <th>{{ blog.author.username }}</th>
+                <th>{{ blog.name }}</th>
+                <th>{{ blog.rating }}</th>
+                <th><a href="{% url 'blog:blog' blog.name %}">Detail</a></th>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+<hr>
+{% if users %}
+<p class='title'>Users</p>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>E-mail</th>
+                <th>Date of birth</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for thisuser in users %}
+            <tr>
+                <th>{{ thisuser.username }}</th>
+                <th>{{ thisuser.first_name }}</th>
+                <th>{{ thisuser.last_name }}</th>
+                <th>{{ thisuser.email }}</th>
+                <th>{{ thisuser.date_of_birth }}</th>
+                <th><a href="{% url 'blog:user' thisuser.id %}">Detail</a></th>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+<hr>
+{% if posts %}
+<p class='title'>Posts</p>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Author</th>
+                <th>Blog</th>
+                <th>Topic</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Date published</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for post in posts %}
+            <tr>
+                <th>{{ post.id }}</th>
+                <th>{{ post.author }}</th>
+                <th>{{ post.blog }}</th>
+                <th>{{ post.topic }}</th>
+                <th>{{ post.title }}</th>
+                <th>{{ post.text|slice:25 }}</th>
+                <th>{{ post.date_published }}</th>
+                <th><a href="{% url 'blog:post' post.id %}">Detail</a></th>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% else %}
+<p class='title'>Nothing found :(</p>
+{% endif %}
+{% endblock content %}

@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils import timezone
 from django.views.generic import edit
-from django.db.models import F
+from django.db.models import F, Q
 from django.contrib.auth.decorators import login_required
 
 from blog.models import MyUser, Blog, Post, Comment
@@ -201,6 +201,60 @@ def logout(request):
 
 
 #`````````````````````````````ACTIONS```````````````````````````````````
+
+def search(request):
+	text = request.GET['inp']
+
+	users = MyUser.objects
+	blogs = Blog.objects
+	posts = Post.objects 
+
+	users_total = users.none()
+	blogs_total = blogs.none()
+	posts_total = posts.none()
+
+	for req in text.split(' '):
+		users_filter = users.filter(
+			Q(first_name__iexact=req) | \
+			Q(last_name__iexact=req) | \
+			Q(username__iexact=req)
+			)
+
+		posts_filter = posts.filter(
+			Q(topic__contains=req) | \
+			Q(title__contains=req) | \
+			Q(text__contains=req)
+			)
+
+		blogs_filter = blogs.filter(name__iexact=req)
+
+		users_total = users_total.union(users_filter)
+		blogs_total = blogs_total.union(blogs_filter)
+		posts_total = posts_total.union(posts_filter)
+
+	users_total = users_total.all()
+	blogs_total = blogs_total.all()
+	posts_total = posts_total.all()
+
+	if len(users_total) == 0:
+		users_total = None
+
+	if len(blogs_total) == 0:
+		blogs_total = None
+
+	if len(posts_total) == 0:
+		posts_total = None
+
+	context = {
+		'users': users_total,
+		'blogs': blogs_total,
+		'posts': posts_total
+		}
+
+	return render(request, 'blog/search.html', context)
+
+
+
 @login_required(login_url='accounts/login/')
 def like_post(request, post_id):
 	post = get_object_or_404(Post, pk=post_id)

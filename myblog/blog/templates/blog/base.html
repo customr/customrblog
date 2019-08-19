@@ -32,6 +32,10 @@
 				<li id='auth' class='actions'><a class='actions' href="{% url 'logout' %}">log out</a></li>
 			{% endif %}
 		</ul>
+		<form action="{% url 'blog:search' %}">
+				<input type="text" name="inp">
+				<input type='submit' value='Search' align='left'>
+		</form>
 	</div>
 </header>
 <body>
