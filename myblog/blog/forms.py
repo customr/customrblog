@@ -62,3 +62,11 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('text',)
+
+
+class TopicForm(forms.Form):
+    topic = forms.ChoiceField(
+        label='Select topic:',
+        choices=tuple([('-', '-')]+[(post.topic, post.topic) for post in Post.objects.order_by('-topic').distinct()]),
+        required=False
+        )

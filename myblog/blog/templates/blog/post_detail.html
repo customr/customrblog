@@ -13,12 +13,10 @@
 		{{ post.date_published }}
 		<li>
 			<a href="{% url 'blog:user' post.author.id %}">AUTHOR</a>
-			{% if user.is_authenticated %}
-				{% if request.user not in post.liked_users.all %}
-					<a href="{% url 'blog:like_post' post.id%}" class='like'>LIKE</a>
-				{% else %}
-					<a href="{% url 'blog:unlike_post' post.id%}" class='unlike'>UNLIKE</a>
-				{% endif %}
+			{% if request.user not in post.liked_users.all %}
+				<a href="{% url 'blog:like_post' post.id%}" class='like'>LIKE</a>
+			{% else %}
+				<a href="{% url 'blog:unlike_post' post.id%}" class='unlike'>UNLIKE</a>
 			{% endif %}
 			<b>RATING: {{ post.rating }}</b>
 		</li>
@@ -39,12 +37,10 @@
 			<li>
 				<a href="{% url 'blog:user' comment.author.id %}">{{ comment.author }}</a>
 				{{ comment.date_published }}
-				{% if user.is_authenticated %}
-					{% if request.user not in comment.liked_users.all %}
-						<a href="{% url 'blog:like_comment' comment.id %}" class='like'>LIKE</a>
-					{% else %}
-						<a href="{% url 'blog:unlike_comment' comment.id %}" class='unlike'>UNLIKE</a>
-					{% endif %}
+				{% if request.user not in comment.liked_users.all %}
+					<a href="{% url 'blog:like_comment' comment.id %}" class='like'>LIKE</a>
+				{% else %}
+					<a href="{% url 'blog:unlike_comment' comment.id %}" class='unlike'>UNLIKE</a>
 				{% endif %}
 				<b>RATING: {{ comment.rating }}</b>
 			</li>

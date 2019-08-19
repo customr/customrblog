@@ -13,6 +13,11 @@ Author {{author.first_name}}{{author.last_name}}
 		<a href="{% url 'blog:new_post' blog.name %}">CREATE NEW POST FOR THIS BLOG</a>
 	{% endif %}
 </div>
+<form method='post'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type='submit' value='Show'>
+</form>
 <p class='title'>Blog posts</p>
 <div>
 	<table>

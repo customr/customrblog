@@ -6,7 +6,7 @@ from django.db.models import F
 from django.contrib.auth.decorators import login_required
 
 from blog.models import MyUser, Blog, Post, Comment
-from blog.forms import UserCreationForm, BlogForm, PostForm, CommentForm
+from blog.forms import UserCreationForm, BlogForm, PostForm, CommentForm, TopicForm
 
 
 class RegisterFormView(edit.FormView):
@@ -67,10 +67,30 @@ def index(request):
 
 def blog(request, blog_name):
 	blog = get_object_or_404(Blog, name__iexact=blog_name)
-	posts = blog.post_set.all()
+	topic = None
+	
+	if request.method == 'POST':
+	    form = TopicForm(request.POST)
+
+	    if form.is_valid():
+	      topic = form.cleaned_data['topic']
+	      if topic == '-':
+	      	topic = None
+
+	else:
+		form = TopicForm(initial={'topic': '-'})
+
+	if topic:
+		posts = blog.post_set.filter(topic__iexact=topic).all()
+
+	else:
+		posts = blog.post_set.all()
+
 	context = {
 		'blog': blog,
-		'posts': posts
+		'posts': posts,
+		'topic': topic,
+		'form': form
 		}
 	return render(request, 'blog/blog_detail.html', context)
 
@@ -101,14 +121,27 @@ def post(request, post_id):
 
 def get_posts(request, topic=None):
 	posts = Post.objects.all()
-	
+
+	if request.method == 'POST':
+	    form = TopicForm(request.POST)
+
+	    if form.is_valid():
+	      topic = form.cleaned_data['topic']
+	      if topic == '-':
+	      	topic = None
+
+	else:
+		form = TopicForm(initial={'topic': '-'})
+
 	if topic is not None:
 		posts = posts.filter(topic__iexact=topic)
 
 	context = {
 		'posts': posts,
-		'topic': topic
+		'topic': topic,
+		'form': form
 		}
+
 	return render(request, 'blog/post.html', context)
 
 def user(request, user_id):

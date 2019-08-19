@@ -1,7 +1,7 @@
 {% extends 'blog/base.html' %}
 
 {% block title%}
-Author {{author.first_name}}{{author.last_name}}
+Help
 {% endblock title %}
 
 {% block content %}
@@ -18,13 +18,6 @@ Author {{author.first_name}}{{author.last_name}}
 
     <br>
     <a href="{% url 'blog:posts' %}"><li class='list'><b>/posts/</b> - all posts</li></a>
-    <br>
-
-    {% if topic %}
-    <a href="{% url 'blog:posts_topic' topic %}"><li class='list'><b>/posts/topic/>topic_name<</b> - all posts by topic</li></a>
-    {% else %}
-    <li class='list'><b>/posts/topic/>topic_name<</b> - all posts by topic</li>
-    {% endif %}
     <br>
 
     {% if post %}
@@ -50,9 +43,9 @@ Author {{author.first_name}}{{author.last_name}}
     <br>
 
     {% if blog %}
-    <a href="{% url 'blog:new_post' blog%}"><li class='list'><b>newpost/>blog_name<</b> - create new post for blog</li></a>
+    <a href="{% url 'blog:new_post' blog%}"><li class='list'><b>/newpost/>blog_name<</b> - create new post for blog</li></a>
     {% else %}
-    <li class='list'><b>newpost/>blog_name</</b> - create new post for blog</li>
+    <li class='list'><b>/newpost/>blog_name</</b> - create new post for blog</li>
     {% endif %}
     <br>
     <a href="{% url 'login' %}"><li class='list'><b>/accounts/login/</b> - log in</li></a>
