@@ -9,9 +9,7 @@ Author {{author.first_name}}{{author.last_name}}
 	<h1>Blog name: {{ blog.name }}</h1>
 	<h1>Blog author: <a href="{% url 'blog:user' blog.author.id %}">{{ blog.author }}</a></h1>
 	<h1>Rating: {{ blog.rating }}</h1>
-	{% if user.is_authenticated %}
-		<a href="{% url 'blog:new_post' blog.name %}">CREATE NEW POST FOR THIS BLOG</a>
-	{% endif %}
+	<a href="{% url 'blog:new_post' blog.name %}">CREATE NEW POST FOR THIS BLOG</a>
 </div>
 <form method='post'>
     {% csrf_token %}

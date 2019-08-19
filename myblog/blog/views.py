@@ -59,7 +59,6 @@ def new_post(request, blog_name=None):
 			
 		return render(request, 'blog/new_post.html', {'form': form})
 
-
 def index(request):
 	blogs = Blog.objects.all()
 	context = {'blogs': blogs}
