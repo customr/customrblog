@@ -59,39 +59,42 @@ def new_post(request, blog_name=None):
 			
 		return render(request, 'blog/new_post.html', {'form': form})
 
+
+
 def index(request):
 	blogs = Blog.objects.order_by('-rating').all()
 	context = {'blogs': blogs}
 	return render(request, 'blog/index.html', context)
 
-def blog(request, blog_name):
+def blog(request, blog_name, topic=None):
 	blog = get_object_or_404(Blog, name__iexact=blog_name)
-	topic = None
+	posts = blog.post_set.all()
 	
 	if request.method == 'POST':
-	    form = TopicForm(request.POST)
+		form = TopicForm(request.POST, blog=blog_name)
 
-	    if form.is_valid():
-	      topic = form.cleaned_data['topic']
-	      if topic == '-':
-	      	topic = None
+		if form.is_valid():
+			topic = form.cleaned_data['topic']
 
-	else:
-		form = TopicForm(initial={'topic': '-'})
+			if topic == '-':
+				return HttpResponseRedirect(reverse('blog:blog', args=(blog_name, )))
 
-	if topic:
-		posts = blog.post_set.filter(topic__iexact=topic).all()
+			return HttpResponseRedirect(reverse('blog:blog_topic', args=(blog_name, topic)))
 
 	else:
-		posts = blog.post_set.all()
+		form = TopicForm(blog=blog_name, initial={'topic': '-'})
 
-	context = {
-		'blog': blog,
-		'posts': posts,
-		'topic': topic,
-		'form': form
-		}
-	return render(request, 'blog/blog_detail.html', context)
+		if topic:
+			posts = blog.post_set.filter(topic__iexact=topic).all()
+			
+		context = {
+			'blog': blog,
+			'posts': posts,
+			'topic': topic,
+			'form': form
+			}
+
+		return render(request, 'blog/blog_detail.html', context)
 
 def post(request, post_id):
 	post = get_object_or_404(Post, pk=post_id)
@@ -122,26 +125,29 @@ def get_posts(request, topic=None):
 	posts = Post.objects.all()
 
 	if request.method == 'POST':
-	    form = TopicForm(request.POST)
+		form = TopicForm(request.POST, update=True)
 
-	    if form.is_valid():
-	      topic = form.cleaned_data['topic']
-	      if topic == '-':
-	      	topic = None
+		if form.is_valid():
+			topic = form.cleaned_data['topic']
+
+			if topic == '-':
+				return HttpResponseRedirect(reverse('blog:posts'))
+
+			return HttpResponseRedirect(reverse('blog:posts_topic', args=(topic, )))
 
 	else:
-		form = TopicForm(initial={'topic': '-'})
+		form = TopicForm(initial={'topic': '-'}, update=True)
 
-	if topic is not None:
-		posts = posts.filter(topic__iexact=topic)
+		if topic:
+			posts = posts.filter(topic__iexact=topic)
 
-	context = {
-		'posts': posts,
-		'topic': topic,
-		'form': form
-		}
+		context = {
+			'posts': posts,
+			'topic': topic,
+			'form': form
+			}
 
-	return render(request, 'blog/post.html', context)
+		return render(request, 'blog/post.html', context)
 
 def user(request, user_id):
 	user = get_object_or_404(MyUser, pk=user_id)

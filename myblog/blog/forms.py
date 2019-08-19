@@ -70,3 +70,30 @@ class TopicForm(forms.Form):
         choices=tuple([('-', '-')]+[(post.topic, post.topic) for post in Post.objects.order_by('-topic').distinct()]),
         required=False
         )
+
+    def __init__(self,*args,**kwargs):
+        if 'blog' in kwargs.keys():
+            blog = kwargs.pop('blog')
+        else:
+            blog = None
+
+        if 'update' in kwargs.keys():
+            update = kwargs.pop('update')
+        else:
+            update = None
+
+        super(TopicForm, self).__init__(*args,**kwargs)
+
+        if blog:
+            self.fields['topic'] = forms.ChoiceField(
+                            label='Select topic:',
+                            choices=tuple([('-', '-')]+[(post.topic, post.topic) for post in Blog.objects.get(name__iexact=blog).post_set.order_by('-topic').distinct()]),
+                            required=False
+                            )
+
+        if update:
+            self.fields['topic'] = forms.ChoiceField(
+                            label='Select topic:',
+                            choices=tuple([('-', '-')]+[(post.topic, post.topic) for post in Post.objects.order_by('-topic').distinct()]),
+                            required=False
+                            )
