@@ -60,7 +60,7 @@ def new_post(request, blog_name=None):
 		return render(request, 'blog/new_post.html', {'form': form})
 
 def index(request):
-	blogs = Blog.objects.all()
+	blogs = Blog.objects.order_by('-rating').all()
 	context = {'blogs': blogs}
 	return render(request, 'blog/index.html', context)
 
